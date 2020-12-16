@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using System.Net;
 using System.IO;
-#if UNITY_WEBGL
+#if UNITY_WEBGL && DASHBOARD
 using WebGLFileUploader;
 #endif
 
@@ -147,14 +147,14 @@ namespace AgileLiteracy.API
                 Debug.LogError("Attempted to make an api call to an endpoint that requires Auth without a token");
                 return;
             }
-            
+
             Dictionary<string, string> headers = new Dictionary<string, string>();
-            
-            
+
+
             if (useAuthToken)
                 headers.Add("Authorization", "Bearer " + AuthToken.current.access_token);
 
-            
+
 
             new ServerRequest(endPoint, httpMethod, body, headers, useAuthToken: useAuthToken).Send((response) =>
              {
@@ -374,7 +374,7 @@ namespace AgileLiteracy.API
 #else
                 return "https://dashboard.agileliteracy.com/api";
 #endif
-                
+
             }
         }
 
@@ -491,7 +491,7 @@ namespace AgileLiteracy.API
             Instance.StartCoroutine(Instance.DoSendAPIRequest(request, OnServerResponse));
         }
 
-#if UNITY_WEBGL
+#if UNITY_WEBGL && DASHBOARD
         public static void UploadAWSFile(string signedUrl, ImportedFileData fileData, System.Action<float> OnProgressUpdated, System.Action<bool,string> OnComplete = null)
         {
             Instance.StartCoroutine(Instance.DoAWSFileUpload(signedUrl, fileData, OnProgressUpdated, OnComplete));
@@ -542,7 +542,7 @@ namespace AgileLiteracy.API
         {
             using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(url))
             {
-                
+
                 www.SetRequestHeader("Access-Control-Allow-Headers", "Accept, X-Access-Token, X-Application-Name, X-Request-Sent-Time");
                 www.SetRequestHeader("Access-Control-Allow-Credentials", "true");
                 www.SetRequestHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS, HEAD");
@@ -720,7 +720,7 @@ namespace AgileLiteracy.API
                 foreach (KeyValuePair<string, string> pair in baseHeaders)
                 {
                     if (pair.Key == "Content-Type" && request.upload != null) continue;
-                    
+
                     webRequest.SetRequestHeader(pair.Key, pair.Value);
                 }
             }

@@ -6,17 +6,17 @@ using Newtonsoft.Json;
 using System.Linq;
 using UnityEngine.Networking;
 using System.IO;
-#if UNITY_WEBGL
+#if UNITY_WEBGL && DASHBOARD
 using WebGLFileUploader;
 #endif
 
 namespace AgileLiteracy.API
 {
-    
+
 
     public partial class APIManager
     {
-        
+
         public static void GetTeam(string id, Action<Team> onComplete)
         {
             ServerRequest.CallAPI("/teams/" + id, HTTPMethod.GET, null, (response) =>
@@ -52,7 +52,7 @@ namespace AgileLiteracy.API
             Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("email", email);
 
-            
+
             ServerRequest.CallAPI("/teams/invite", HTTPMethod.POST, body, (r) => { ServerRequest.ResponseHandler(r, null, onComplete); }, true);
         }
 
@@ -61,7 +61,7 @@ namespace AgileLiteracy.API
             ServerRequest.CallAPI("/teams/invitation/" + inviteId, HTTPMethod.GET, null, (r) => { ServerRequest.ResponseHandler(r, "memberships", onComplete); }, true);
         }
 
-        public static void UpdateMemberRank(string memberId, int rank, Action<Dictionary<string,object>> onComplete)
+        public static void UpdateMemberRank(string memberId, int rank, Action<Dictionary<string, object>> onComplete)
         {
             Dictionary<string, object> body = new Dictionary<string, object>()
             {
@@ -72,7 +72,7 @@ namespace AgileLiteracy.API
         }
 
 
-        public static void DeleteInvitation(string inviteId, Action<Dictionary<string,object>> onComplete)
+        public static void DeleteInvitation(string inviteId, Action<Dictionary<string, object>> onComplete)
         {
             ServerRequest.CallAPI("/teams/invitation/" + inviteId, HTTPMethod.DELETE, null, (r) => { ServerRequest.ResponseHandler(r, null, onComplete); }, true);
         }
@@ -118,7 +118,7 @@ namespace AgileLiteracy.API
         }
 
 
-        public static void RemoveMember(TeamMember member, Action<Dictionary<string,object>> onComplete)
+        public static void RemoveMember(TeamMember member, Action<Dictionary<string, object>> onComplete)
         {
             //POST /api/teams/members/remove
 
@@ -148,7 +148,7 @@ namespace AgileLiteracy.API
             //POST /api/teams/groups/create
 
             List<string> courseIds = new List<string>();
-            foreach(InteractiveCourseAssignment ass in group.interactiveCourses)
+            foreach (InteractiveCourseAssignment ass in group.interactiveCourses)
             {
                 courseIds.Add(ass._id);
             }
@@ -164,7 +164,8 @@ namespace AgileLiteracy.API
 
         public static void DeleteGroup(TeamGroup group, Action<bool> onComplete)
         {
-            ServerRequest.CallAPI("/teams/groups/" + group._id, HTTPMethod.DELETE, null, (response) => {
+            ServerRequest.CallAPI("/teams/groups/" + group._id, HTTPMethod.DELETE, null, (response) =>
+            {
                 ServerRequest.ResponseHandler<Dictionary<string, object>>(response, null, (dict) =>
                 {
                     if (dict != null && dict.ContainsKey("ok") && System.Convert.ToInt32(dict["ok"]) == 1)
@@ -189,7 +190,7 @@ namespace AgileLiteracy.API
         {
             //DELETE /api/teams/groups/:groupId/assignment
 
-            Dictionary<string, object> body = new Dictionary<string, object>() 
+            Dictionary<string, object> body = new Dictionary<string, object>()
             {
                 {"course", courseId }
             };
@@ -236,7 +237,7 @@ namespace AgileLiteracy.API
             ServerRequest.CallAPI("/teams/members/assignments", HTTPMethod.POST, body, (r) => { ServerRequest.ResponseHandler(r, "courses", onComplete); }, true);
         }
 
-        public static void GetSignedUploadURL(string filename, string filetype, Action<Dictionary<string,object>> onComplete)
+        public static void GetSignedUploadURL(string filename, string filetype, Action<Dictionary<string, object>> onComplete)
         {
             Dictionary<string, object> body = new Dictionary<string, object>()
             {
@@ -244,11 +245,11 @@ namespace AgileLiteracy.API
                 {"filetype", filetype },
                 {"team", User.current.selectedMembership.team._id }
             };
-            
+
             ServerRequest.CallAPI("/aws/getSignedUrl", HTTPMethod.POST, body, (r) => { ServerRequest.ResponseHandler(r, null, onComplete); }, true);
         }
 
-#if UNITY_WEBGL
+#if UNITY_WEBGL && DASHBOARD
         public static void UploadAWSFile(string signedUrl, ImportedFileData fileData, System.Action<float> OnProgressUpdated, System.Action<bool,string> onComplete)
         {
             ServerAPI.UploadAWSFile(signedUrl, fileData, OnProgressUpdated, onComplete);
@@ -282,7 +283,7 @@ namespace AgileLiteracy.API
         }
 
 #endif
-        public static void DeleteFile(string fileId, Action<Dictionary<string,object>> onComplete)
+        public static void DeleteFile(string fileId, Action<Dictionary<string, object>> onComplete)
         {
             Dictionary<string, object> body = new Dictionary<string, object>()
             {
@@ -304,7 +305,7 @@ namespace AgileLiteracy.API
         {
             public bool success;
             public TeamEvent[] events;
-            
+
         }
         [System.Serializable]
         public class SingleTeamEventResponse
@@ -320,7 +321,7 @@ namespace AgileLiteracy.API
                 Debug.LogError("INVALID TEAM ID");
                 return;
             }
-            
+
             //GET /api/teams/members/:teamId
 
             ServerRequest.CallAPI("/teams/" + teamId + "/events/list", HTTPMethod.GET, null, (r) => { ServerRequest.ResponseHandler(r, null, onComplete); }, true);
