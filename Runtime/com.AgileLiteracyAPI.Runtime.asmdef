@@ -1,5 +1,5 @@
 {
-    "name": "com.AgileLiteracyAPI.Runtime",
+    "name": "com.agileliteracy.api-client",
     "references": [],
     "includePlatforms": [
         "LinuxStandalone64",
