@@ -62,5 +62,15 @@ namespace GameBrewStudios.Networking
             };
             ServerRequest.CallAPI("/interactive/instructor/decks/delete/" + id, HTTPMethod.POST, body, (response) => ServerRequest.ResponseHandler(response, null, onComplete), true);
         }
+
+        public static void GenerateMinigameLink(InteractiveInstructorDeck deck, Action<MinigameDataResponse> onComplete)
+        {
+            ServerRequest.CallAPI("/interactive/instructor/generatelink/" + deck._id, HTTPMethod.GET, null, (response) => ServerRequest.ResponseHandler(response, null, onComplete), false);
+        }
+
+        public static void GetMinigameData(string gameCode, Action<MinigameDataResponse> onComplete)
+        {
+            ServerRequest.CallAPI("/interactive/instructor/minigame/" + gameCode, HTTPMethod.GET, null, (response) => ServerRequest.ResponseHandler(response, null, onComplete), false);
+        }
     }
 }
