@@ -1,5 +1,5 @@
 {
-    "name": "com.gamebrewstudios.unity-scene-switcher",
+    "name": "com.agileliteracy.api-client",
     "version": "1.1.5",
     "displayName": "Agile Literacy API Client",
     "type": "tool",
@@ -7,8 +7,8 @@
     "description": "C# API Client to communicate with the Custom Built NodeJS/Express ",
     "license": "Proprietary",
     "author": {
-        "name": "Keith Brewer",
-        "email": "sentrestage@gmail.com",
+        "name": "Agile Literacy",
+        "email": "keith@agileliteracy.com",
         "url": "https://agileliteracy.com"
     }
 }
