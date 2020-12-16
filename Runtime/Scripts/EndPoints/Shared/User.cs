@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using Newtonsoft.Json;
 
-namespace GameBrewStudios.Networking
+namespace AgileLiteracy.API
 {
     public partial class APIManager
     {

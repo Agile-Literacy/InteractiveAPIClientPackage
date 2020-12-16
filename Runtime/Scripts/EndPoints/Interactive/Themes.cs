@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GameBrewStudios.Networking;
+using AgileLiteracy.API;
 using System;
 using Newtonsoft.Json;
 
-namespace GameBrewStudios.Networking
+namespace AgileLiteracy.API
 {
     public partial class APIManager
     {

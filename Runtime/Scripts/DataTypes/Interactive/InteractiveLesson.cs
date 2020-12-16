@@ -1,5 +1,5 @@
-﻿using GameBrewStudios;
-using GameBrewStudios.Networking;
+﻿using AgileLiteracy.API;
+using AgileLiteracy.API;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -123,17 +123,17 @@ public class InteractiveLesson
     /// This method calls PUT /api/progress on the server, which will automatically mark parent Levels and Courses complete as necessary
     /// </summary>
     /// <param name="onComplete"></param>
-    
-    public void CompleteLesson(Action<CourseProgress[],bool,bool> onComplete)
+
+    public void CompleteLesson(Action<CourseProgress[], bool, bool> onComplete)
     {
-        
+
 
 
         bool levelCompleted = false;
         bool courseCompleted = false;
         APIManager.CompleteLesson(InteractiveCourse.current, InteractiveLesson.current, true, (courseprogress) =>
         {
-            if(hasQuiz())
+            if (hasQuiz())
             {
                 onComplete?.Invoke(courseprogress, levelCompleted, courseCompleted);
                 return;

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using GameBrewStudios;
-using GameBrewStudios.Networking;
+using AgileLiteracy.API;
+using AgileLiteracy.API;
 
 [System.Serializable]
 public enum BadgeIconType
@@ -25,7 +25,7 @@ public class InteractiveBadge
     public Team team;
 
 
-    
+
 
 
     //Helpers 
@@ -40,7 +40,7 @@ public class InteractiveBadge
 
     public void LoadOrDownloadTexture(System.Action<Texture2D> OnTextureLoaded)
     {
-        if(this._texture != null && this._texture.name == this.icon)
+        if (this._texture != null && this._texture.name == this.icon)
         {
             //Texture has already been downloaded or loaded from resources and assigned, and still matches the name of the image in the icon field
             OnTextureLoaded.Invoke(this._texture);
@@ -67,7 +67,7 @@ public class InteractiveBadge
             string url = this.icon;
             APIManager.DownloadTexture2D(url, (texture) =>
             {
-                if(texture != null)
+                if (texture != null)
                 {
                     this._texture = texture;
                     this._texture.name = this.icon;
@@ -94,7 +94,8 @@ public class InteractiveBadge
 
     public void GetSprite(System.Action<Sprite> OnSpriteReady)
     {
-        this.LoadOrDownloadTexture((texture) => {
+        this.LoadOrDownloadTexture((texture) =>
+        {
 
             if (texture == null)
             {

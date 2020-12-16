@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-namespace GameBrewStudios.Networking
+namespace AgileLiteracy.API
 {
     public partial class APIManager
     {

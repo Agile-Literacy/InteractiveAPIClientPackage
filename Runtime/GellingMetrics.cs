@@ -15,7 +15,7 @@
 //Uncomment to get helpful debugging messages in the console for the metrics server calls.
 #define GELLING_METRICS_LOGGING_ENABLED
 
-using GameBrewStudios;
+using AgileLiteracy.API;
 using Newtonsoft.Json;
 
 using System.Collections;

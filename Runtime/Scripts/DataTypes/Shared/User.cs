@@ -1,11 +1,11 @@
-﻿using GameBrewStudios.Networking;
+﻿using AgileLiteracy.API;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace GameBrewStudios
+namespace AgileLiteracy.API
 {
 
 

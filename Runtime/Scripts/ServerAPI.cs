@@ -14,7 +14,7 @@ using System.IO;
 using WebGLFileUploader;
 #endif
 
-namespace GameBrewStudios.Networking
+namespace AgileLiteracy.API
 {
     [System.Serializable]
     public class AuthToken

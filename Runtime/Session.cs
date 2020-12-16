@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GameBrewStudios.Networking;
-using GameBrewStudios;
+using AgileLiteracy.API;
+using AgileLiteracy.API;
 
-public static class Session 
+public static class Session
 {
     private static string uuid, user, team, sessionID;
     public static bool isSending; //if unable to send toggle off until the next 'Major' event as to not eat bandwidth trying to constantly send + save events unsuccesfully
@@ -56,11 +56,11 @@ public static class Session
         //systeminfo gives a unique id for the device is use
         uuid = SystemInfo.deviceUniqueIdentifier;
 
-        
+
 
         //instialize the empty lists
         if (sessionMetricList == null)
-        {sessionMetricList = new List<MetricEvent>();}
+        { sessionMetricList = new List<MetricEvent>(); }
 
         if (answeredQuestions == null)
         { answeredQuestions = new List<AnswerQuizQuestion>(); }
@@ -68,19 +68,19 @@ public static class Session
 
     }
     public static void EndSession()
-    { 
-    
+    {
+
     }
 
-        //this would not work with multiple users, TODO: find solution, or dont assume a user not logged in is a previous user
-        //public static void SaveIDtoPrefs()
-        //{ 
-        //        PlayerPrefs.SetString("user", user);
-        //        PlayerPrefs.SetString("team", team);
+    //this would not work with multiple users, TODO: find solution, or dont assume a user not logged in is a previous user
+    //public static void SaveIDtoPrefs()
+    //{ 
+    //        PlayerPrefs.SetString("user", user);
+    //        PlayerPrefs.SetString("team", team);
 
-        //}
+    //}
 
-        public static string GenerateSessionID()
+    public static string GenerateSessionID()
     {
         string sessionuuid = uuid;
 
@@ -129,7 +129,7 @@ public static class Session
             if (res != null)
             { SaveLoadSessionData.Save(res.metrics); }
             else { SaveLoadSessionData.Save(sessionMetricList[sessionMetricList.Count - 1]); }
-            
+
         }
         else
         {
@@ -144,7 +144,7 @@ public static class Session
     }
 
 
-    public static void GenericEvent(string actionid="",string data = "")
+    public static void GenericEvent(string actionid = "", string data = "")
     {
         if (sessionMetricList == null)
         { sessionMetricList = new List<MetricEvent>(); }
@@ -174,13 +174,13 @@ public static class Session
 
 
     //have the id be optional so the event can be logged even in there is unknown information
-    public static void QuizStart(string quizid="")
+    public static void QuizStart(string quizid = "")
     {
         if (sessionMetricList == null)
         { sessionMetricList = new List<MetricEvent>(); }
         if (answeredQuestions == null)
         { answeredQuestions = new List<AnswerQuizQuestion>(); }
-        else 
+        else
         {
             //clear any questions from a previous quiz
             answeredQuestions.Clear();
@@ -211,9 +211,9 @@ public static class Session
         sessioncount++;
     }
 
-    
 
-    public static void QuizEnd(string quizid = "", string quizResult="")
+
+    public static void QuizEnd(string quizid = "", string quizResult = "")
     {
 
         if (answeredQuestions == null)
@@ -230,15 +230,15 @@ public static class Session
         newEvent.SessionIndex(sessionMetricList.Count);
 
         sessionMetricList.Add(newEvent);
-        
+
         APIManager.SubmitMetrics((new MetricEvent[1] { newEvent }), (res) => HandleResponse(res));
         sessioncount++;
 
-        
+
     }
 
 
-    public static void AnswerQuizQuestion(string quizid = "", string answerid = "", string answerGiven="", string answerResult ="")
+    public static void AnswerQuizQuestion(string quizid = "", string answerid = "", string answerGiven = "", string answerResult = "")
     {
 
         if (answeredQuestions == null)
@@ -254,7 +254,7 @@ public static class Session
         //Keep a tally of the events in a session in the case of time race conditions to still know which event occured first
         newEvent.SessionIndex(sessionMetricList.Count);
 
-        
+
 
         answeredQuestions.Add(metricData);
 
@@ -284,10 +284,10 @@ public static class Session
     }
 
 
-    public static void ActivityEnd(string activityid = "", string result="")
+    public static void ActivityEnd(string activityid = "", string result = "")
     {
         double duration = DateTime.Now.Subtract(lastActionTime).TotalSeconds;
-        
+
         MetricEvent newEvent = new MetricEvent();
         ActivityEnd metricData = new ActivityEnd(activityid, result, Math.Abs(duration));
         newEvent.SetEventInfo(uuid, user, sessionID, null);
@@ -305,7 +305,7 @@ public static class Session
 
 
 
-    public static void JoinCourse(string courseid = "",string assigner="")
+    public static void JoinCourse(string courseid = "", string assigner = "")
     {
 
         //Keep a tally of the events in a session in the case of time race conditions to still know which event occured first
@@ -325,9 +325,9 @@ public static class Session
     }
 
 
-    public static void LeaveCourse(string courseid = "", string result="",string awards="",float progress=0.0f)
+    public static void LeaveCourse(string courseid = "", string result = "", string awards = "", float progress = 0.0f)
     {
-       
+
 
         MetricEvent newEvent = new MetricEvent();
         LeaveCourse metricData = new LeaveCourse(courseid, result, awards, progress);
@@ -345,10 +345,10 @@ public static class Session
     }
 
 
-    public static void GainBadge(string badgeid="", string newteam="", string newawardedby="")
+    public static void GainBadge(string badgeid = "", string newteam = "", string newawardedby = "")
     {
 
-        
+
 
         MetricEvent newEvent = new MetricEvent();
         GainBadge metricData = new GainBadge(badgeid, newteam, newawardedby);
@@ -366,10 +366,10 @@ public static class Session
     }
 
 
-    public static void AnswerInstructorQuestion(string courseid="",string instructorid="", string questionid = "", string answer = "",string result="")
+    public static void AnswerInstructorQuestion(string courseid = "", string instructorid = "", string questionid = "", string answer = "", string result = "")
     {
 
-       
+
 
         MetricEvent newEvent = new MetricEvent();
         AnswerInstructorQuestion metricData = new AnswerInstructorQuestion(courseid, instructorid, questionid, answer, result);
@@ -385,9 +385,9 @@ public static class Session
         sessioncount++;
     }
 
-    public static void AskInstructorQuestion(string courseid = "",string instructorid = "", string questionid = "")
+    public static void AskInstructorQuestion(string courseid = "", string instructorid = "", string questionid = "")
     {
-        
+
         MetricEvent newEvent = new MetricEvent();
         AskInstructorQuestion metricData = new AskInstructorQuestion(courseid, instructorid, questionid);
         newEvent.SetEventInfo(uuid, user, sessionID, null);

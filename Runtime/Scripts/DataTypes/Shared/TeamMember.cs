@@ -1,6 +1,6 @@
 ﻿
-using GameBrewStudios;
-using GameBrewStudios.Networking;
+using AgileLiteracy.API;
+using AgileLiteracy.API;
 using UnityEngine;
 
 [System.Serializable]
@@ -30,7 +30,8 @@ public class TeamMember
             Debug.Log("LOOKING FOR ICON: /icons/role/" + this.role);
             return icon;
         }
-        catch {
+        catch
+        {
             return null;
         }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameBrewStudios.Networking
+namespace AgileLiteracy.API
 {
     [System.Serializable]
     public class TeamGroup
