@@ -33,6 +33,25 @@ namespace GameBrewStudios.Networking
             public InteractiveInstructorDeck[] decks;
         }
 
+
+        [System.Serializable]
+        public class MinigameDataResponse
+        {
+            public bool success;
+            public string error;
+            public InteractiveInstructorDeck deck;
+            public InteractiveQuestion[] questionData;
+        }
+
+
+        [System.Serializable]
+        public class MinigameLinkResponse
+        {
+            public bool success;
+            public string error;
+            public string url;
+        }
+
         public static void CreateInstructorDeck(Action<InstructorDeckResponse> onComplete)
         {
             Dictionary<string, object> body = new Dictionary<string, object>() {
@@ -63,7 +82,7 @@ namespace GameBrewStudios.Networking
             ServerRequest.CallAPI("/interactive/instructor/decks/delete/" + id, HTTPMethod.POST, body, (response) => ServerRequest.ResponseHandler(response, null, onComplete), true);
         }
 
-        public static void GenerateMinigameLink(InteractiveInstructorDeck deck, Action<MinigameDataResponse> onComplete)
+        public static void GenerateMinigameLink(InteractiveInstructorDeck deck, Action<MinigameLinkResponse> onComplete)
         {
             ServerRequest.CallAPI("/interactive/instructor/generatelink/" + deck._id, HTTPMethod.GET, null, (response) => ServerRequest.ResponseHandler(response, null, onComplete), false);
         }
